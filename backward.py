@@ -31,21 +31,21 @@ def backward():
     matrix[dimx - 1, dimy - 1] = 1
     for i in reversed(range(1, dimx - 1)):
         if i in non_silent_states:
-            matrix[i, dimy - 1] = state_probs["3" + str(i)]  # * emission_probs[str(i) + emissions[0]]
+            matrix[i, dimy - 1] = state_probs["3" + str(i)]
         else:
             matrix[i, dimy - 1] = state_probs["3" + str(i)]
     for r in range(0, dimy - 2):
-        for c in reversed(range(0, dimx-1)):
+        for c in reversed(range(0, dimx)):
             tot = 0
             if r in non_silent_states:
                 for s in range(1, len(states) + 1):
-                    print(str(s) + str(r), str(c + 1))
-                    tot += matrix[s, c + 2] * state_probs[str(s) + str(r)] * emission_probs[str(s) + emissions[c + 1]]
+                    # print(str(s) + str(r), str(c + 1))
+                    tot += matrix[s, c + 1] * state_probs[str(r) + str(s)] * emission_probs[str(s) + emissions[c]]
 
                     # matrix[s, r-1] * state_probs[str(s)+str(c)] * emission_probs[str(c)+emissions[r-1]]
-            else:
+            """else:
                 for s in reversed(range(1, len(states) + 1)):
-                    tot += matrix[s, c + 1] * state_probs[str(s) + str(c)]
+                    tot += matrix[s, c + 1] * state_probs[str(s) + str(c)]"""
             matrix[r][c] = tot
     return matrix
 
@@ -71,4 +71,4 @@ e = ["X", "X", "X", "X"]
 setup(sp, st, nss, e, stp, ep)
 
 print(backward())
-print(15/2**8)
+print(197/20**20, 15/2**8)
