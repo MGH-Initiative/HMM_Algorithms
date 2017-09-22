@@ -19,7 +19,8 @@ b = {"B":0, "1":0, "2":0, "E":0}
 one = {"B":1, "1":1/8, "2":1/2, "E":0}
 two = {"B":0, "1":3/4, "2":1/4,"E":0}
 e = {"B":0, "1":1/8, "2":1/4, "E":0}
-all = {"B" : b, "1" : one, "two" : two}
+all = {"B" : b, "1" : one, "two" : two, "E" : e}
+
 
 # dictionary with the respective probabilities for emitted states x and y
 
@@ -40,8 +41,21 @@ def hmm_v(state, time):
     matrix[:, 0, 0 ] = 1
 
     for i in range(1, time + 1):
-        #for st in range(0, len(states)):
-         # matrix[1,st,i] =
+        for st in range(0, len(states)):
+            if i==time+1:
+                #lolol
+                #go thru only the input "state" b/c u don't need to consider it going thru all the states at the target time
+            else:
+                for value in all.items():
+                    #calc probability for all of the states in the current time
+                    # use "all" to go thru all dictionaries, corresponding to the states
+
+                    
+                
+            tempProbsX = np.zeros[len(states)];
+            tempProbsY = np.zeros(len(states)];
+            tempProbsX[st] = matrix[0,st, i-1]*
+            matrix[1,st,i] =
          # lulu in progress code:
          # the idea is that for every current state in a time course:
          # you go through all the previous states of the last time course
