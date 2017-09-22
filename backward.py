@@ -34,19 +34,22 @@ def backward():
             matrix[i, dimy - 1] = state_probs["3" + str(i)]
         else:
             matrix[i, dimy - 1] = state_probs["3" + str(i)]
-    for r in range(0, dimy - 2):
+    for r in range(1, dimy - 2):
         for c in reversed(range(0, dimx)):
             tot = 0
             if r in non_silent_states:
                 for s in range(1, len(states) + 1):
-                    # print(str(s) + str(r), str(c + 1))
                     tot += matrix[s, c + 1] * state_probs[str(r) + str(s)] * emission_probs[str(s) + emissions[c]]
-
-                    # matrix[s, r-1] * state_probs[str(s)+str(c)] * emission_probs[str(c)+emissions[r-1]]
             """else:
                 for s in reversed(range(1, len(states) + 1)):
                     tot += matrix[s, c + 1] * state_probs[str(s) + str(c)]"""
             matrix[r][c] = tot
+
+    tot = 0
+    for s in range(1, len(states) + 1):
+        tot += matrix[s, 1] * state_probs[str(0) + str(s)] * emission_probs[str(s) + emissions[0]]
+        print(tot)
+    matrix[0, 0] = tot
     return matrix
 
 
@@ -60,7 +63,7 @@ st = [1, 2]
 nss = [1, 2]
 
 # dict of probabilities to switch between states (ex: 12 is the probability to move from state 1 to 2
-stp = {"31": 0.125, "32": 0.25, "11": 0.125, "12": 0.75, "22": 0.25, "21": 0.5, "10": 0, "20": 0}
+stp = {"31": 0.125, "32": 0.25, "11": 0.125, "12": 0.75, "22": 0.25, "21": 0.5, "01": 1, "02": 0}
 
 # dict of probabilities to emit from a non silent state (ex: 1X is the probability to emit X from state 1)
 ep = {"0X": 0, "1X": 0.875, "1Y": 0.125, "2X": 0.0625, "2Y": 0.9375}
@@ -71,4 +74,4 @@ e = ["X", "X", "X", "X"]
 setup(sp, st, nss, e, stp, ep)
 
 print(backward())
-print(197/20**20, 15/2**8)
+print(197/(2**14), 15/(2**8))
