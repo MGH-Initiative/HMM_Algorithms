@@ -7,13 +7,13 @@ nonsilent_states = ['1', '2']
 silent_states = ['B', 'E']
 end_vals = {'B':0,'1':0.125, '2':0.25, 'E':1}
 
-def backwards(s,t, starting='B'):
+def backwards(s,t, starting='B', maxtime = 4):
     nonsilent_sum = 0
     silent_sum = 0
     if starting:
         if s == starting and t > 0:
             return 0
-    if t == 4:
+    if t == maxtime:
         return end_vals[s]
     for k in nonsilent_states:
         nonsilent_sum += e[k]['X']*a[s][k]*backwards(k,t + 1)
@@ -25,13 +25,14 @@ def backwards(s,t, starting='B'):
         
 
 def matrixifyBackwards(state_list, max_time, starting='B'):
-    matrix = np.zeros((len(state_list), max_time))
+    matrix = np.zeros((len(state_list), max_time+1))
     for state_i in range(len(matrix)):
-        for time_i in range(max_time):
-            matrix[state_i,time_i] = backwards(state_list[state_i], time_i, starting=starting)
+        for time_i in range(max_time + 1):
+            matrix[state_i,time_i] = backwards(state_list[state_i], time_i, starting=starting, maxtime = max_time)
     return matrix
 
 state_list = ['B', '1', '2', 'E']
-        
 
-print("matrixifyBackwards(state_list, 4, starting='B')\n", matrixifyBackwards(state_list, 4, starting='B'))
+       
+print("matrixifyBackwards(state_list, 4, starting='B')")
+print(matrixifyBackwards(state_list, 4, starting='B'))
