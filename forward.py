@@ -12,7 +12,7 @@ np = numpy
 # t loop calculates the end value
 
 def forward(state_probs, emission_probs, steps, emissions, non_silent_states, states):
-    matrix = np.zeros((len(state_probs) / 2, steps + 1))
+    matrix = np.zeros((len(state_probs) // 2, steps + 1))
     matrix[0][0] = 1
     for m in range(1, len(states) + 1):
         if m in non_silent_states:
@@ -20,21 +20,22 @@ def forward(state_probs, emission_probs, steps, emissions, non_silent_states, st
         else:
             matrix[m][1] = state_probs["0" + str(m)]
     for i in range(2, steps + 1):
-        for k in range(1, len(states)+1):
+        for k in range(1, len(states) + 1):
             total = 0
             if k in non_silent_states:
                 for n in range(1, len(states) + 1):
-                    total += matrix[n][i-1] * state_probs[str(n)+str(k)] * emission_probs[str(k)+emissions[i-1]]
+                    total += matrix[n][i - 1] * state_probs[str(n) + str(k)] * emission_probs[str(k) + emissions[i - 1]]
             else:
                 for n in range(1, len(states) + 1):
-                    total += matrix[i-1][n] * state_probs[str(n) + str(k)]
+                    total += matrix[i - 1][n] * state_probs[str(n) + str(k)]
             matrix[k][i] = total
         if i == 4:
             total = 0
-            for t in range(1, len(states)+1):
-                total += matrix[t][i] * state_probs[str(t)+"3"]
-            matrix[t+1][i] = total
+            for t in range(1, len(states) + 1):
+                total += matrix[t][i] * state_probs[str(t) + "3"]
+            matrix[t + 1][i] = total
     print(matrix)
+
 
 # number of time courses measured
 steps = 4
