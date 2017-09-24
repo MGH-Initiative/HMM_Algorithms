@@ -13,6 +13,7 @@ current_state = "B"
 
 start_prob = 1
 
+time_course = 4
 # dictionaries with transitory probabilities ( the variable name is the starting location and the key is the end)
 #   ex: dictionary named "one" holds keys to all the transition probabilities of going from other states TO one
 
@@ -40,19 +41,19 @@ def hmm_vit(state, time):  # state is char and time is int
 
     # three dimensional matrix that represents the table provided in the paper
 
-    matrix = np.zeros(len(init_states), time + 1)
+    matrix = np.zeros(len(init_states), time_course + 1)
 
     # only possible state in time course 0 is B
 
     matrix[0, 0] = start_prob
 
-    for i in range(1, time + 1):
+    for i in range(1, time_course + 1):
         for currst in states:
             current_state = currst
             temp = []
-            for prevst in range(num_states):
+            for prevst in range(num_states): #cycles thru all the states of the prev time course
                 prevStateDictionary = allStates[prevst]
-                trans_prob = prevStateDictionary[current_state]
+                trans_prob = prevStateDictionary[current_state] #finds trans probability from prev state to current state
                 if currst!="E":
                     currEmissions = emissionCourse[i-1]
                     stateEmit = currEmissions[current_state]
@@ -63,6 +64,6 @@ def hmm_vit(state, time):  # state is char and time is int
             matrix[init_states.index(current_state), i] = max_prob
 
 
-    return matrix
+    return matrix[init_states.index(state),time]
 
-print(hmm_vit("B", 4))
+print(hmm_vit("1", 4))
