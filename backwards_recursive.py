@@ -28,7 +28,7 @@ def matrixifyBackwards(state_list, max_time, starting='B'):
     matrix = np.zeros((len(state_list), max_time+1))
     for state_i in range(len(matrix)):
         for time_i in range(max_time + 1):
-            matrix[state_i,time_i] = backwards(state_list[state_i], time_i, starting=starting, maxtime = max_time)
+            matrix[state_i,time_i] =    backwards(state_list[state_i], time_i, starting=starting, maxtime = max_time)
     return matrix
 
 state_list = ['B', '1', '2', 'E']

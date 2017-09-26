@@ -41,7 +41,7 @@ def hmm_vit(state, time):  # state is char and time is int
 
     # three dimensional matrix that represents the table provided in the paper
 
-    matrix = np.zeros(len(init_states), time_course + 1)
+    matrix = np.zeros((len(init_states), time_course + 1))
 
     # only possible state in time course 0 is B
 
